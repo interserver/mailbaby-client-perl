@@ -1,4 +1,9 @@
-# openapi_client.SendingApi
+# OpenAPIClient::SendingApi
+
+## Load the API package
+```perl
+use OpenAPIClient::Object::SendingApi;
+```
 
 All URIs are relative to *https://api.mailbaby.net*
 
@@ -9,79 +14,55 @@ Method | HTTP request | Description
 
 
 # **send_adv_mail**
-> GenericResponse send_adv_mail(subject, body, var_from, to, replyto=replyto, cc=cc, bcc=bcc, attachments=attachments, id=id)
+> GenericResponse send_adv_mail(subject => $subject, body => $body, from => $from, to => $to, replyto => $replyto, cc => $cc, bcc => $bcc, attachments => $attachments, id => $id)
 
 Sends an Email with Advanced Options
 
 Sends An email through one of your mail orders allowing additional options such as file attachments, cc, bcc, etc.
 
 ### Example
+```perl
+use Data::Dumper;
+use OpenAPIClient::SendingApi;
+my $api_instance = OpenAPIClient::SendingApi->new(
 
-* Api Key Authentication (apiKeyAuth):
-```python
-import time
-import os
-import openapi_client
-from openapi_client.models.email_address_name import EmailAddressName
-from openapi_client.models.generic_response import GenericResponse
-from openapi_client.models.mail_attachment import MailAttachment
-from openapi_client.rest import ApiException
-from pprint import pprint
+    # Configure API key authorization: apiKeyAuth
+    api_key => {'X-API-KEY' => 'YOUR_API_KEY'},
+    # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+    #api_key_prefix => {'X-API-KEY' => 'Bearer'},
+);
 
-# Defining the host is optional and defaults to https://api.mailbaby.net
-# See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
-    host = "https://api.mailbaby.net"
-)
+my $subject = "subject_example"; # string | The subject or title of the email
+my $body = "body_example"; # string | The main email contents.
+my $from = new OpenAPIClient.EmailAddressName(); # EmailAddressName | 
+my $to = [(new OpenAPIClient.EmailAddressName())]; # ARRAY[EmailAddressName] | A list of destionation email addresses to send this to
+my $replyto = [(new OpenAPIClient.EmailAddressName())]; # ARRAY[EmailAddressName] | (optional) A list of email addresses that specify where replies to the email should be sent instead of the _from_ address.
+my $cc = [(new OpenAPIClient.EmailAddressName())]; # ARRAY[EmailAddressName] | (optional) A list of email addresses to carbon copy this message to.  They are listed on the email and anyone getting the email can see this full list of Contacts who received the email as well.
+my $bcc = [(new OpenAPIClient.EmailAddressName())]; # ARRAY[EmailAddressName] | (optional) list of email addresses that should receive copies of the email.  They are hidden on the email and anyone gettitng the email would not see the other people getting the email in this list.
+my $attachments = [(new OpenAPIClient.MailAttachment())]; # ARRAY[MailAttachment] | (optional) File attachments to include in the email.  The file contents must be base64 encoded!
+my $id = 789; # int | (optional)  ID of the Mail order within our system to use as the Mail Account.
 
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure API key authorization: apiKeyAuth
-configuration.api_key['apiKeyAuth'] = os.environ["API_KEY"]
-
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['apiKeyAuth'] = 'Bearer'
-
-# Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = openapi_client.SendingApi(api_client)
-    subject = 'subject_example' # str | The subject or title of the email
-    body = 'body_example' # str | The main email contents.
-    var_from = openapi_client.EmailAddressName() # EmailAddressName | 
-    to = [openapi_client.EmailAddressName()] # List[EmailAddressName] | A list of destionation email addresses to send this to
-    replyto = [openapi_client.EmailAddressName()] # List[EmailAddressName] | (optional) A list of email addresses that specify where replies to the email should be sent instead of the _from_ address. (optional)
-    cc = [openapi_client.EmailAddressName()] # List[EmailAddressName] | (optional) A list of email addresses to carbon copy this message to.  They are listed on the email and anyone getting the email can see this full list of Contacts who received the email as well. (optional)
-    bcc = [openapi_client.EmailAddressName()] # List[EmailAddressName] | (optional) list of email addresses that should receive copies of the email.  They are hidden on the email and anyone gettitng the email would not see the other people getting the email in this list. (optional)
-    attachments = [openapi_client.MailAttachment()] # List[MailAttachment] | (optional) File attachments to include in the email.  The file contents must be base64 encoded! (optional)
-    id = 56 # int | (optional)  ID of the Mail order within our system to use as the Mail Account. (optional)
-
-    try:
-        # Sends an Email with Advanced Options
-        api_response = api_instance.send_adv_mail(subject, body, var_from, to, replyto=replyto, cc=cc, bcc=bcc, attachments=attachments, id=id)
-        print("The response of SendingApi->send_adv_mail:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling SendingApi->send_adv_mail: %s\n" % e)
+eval {
+    my $result = $api_instance->send_adv_mail(subject => $subject, body => $body, from => $from, to => $to, replyto => $replyto, cc => $cc, bcc => $bcc, attachments => $attachments, id => $id);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling SendingApi->send_adv_mail: $@\n";
+}
 ```
-
-
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **subject** | **str**| The subject or title of the email | 
- **body** | **str**| The main email contents. | 
- **var_from** | [**EmailAddressName**](EmailAddressName.md)|  | 
- **to** | [**List[EmailAddressName]**](EmailAddressName.md)| A list of destionation email addresses to send this to | 
- **replyto** | [**List[EmailAddressName]**](EmailAddressName.md)| (optional) A list of email addresses that specify where replies to the email should be sent instead of the _from_ address. | [optional] 
- **cc** | [**List[EmailAddressName]**](EmailAddressName.md)| (optional) A list of email addresses to carbon copy this message to.  They are listed on the email and anyone getting the email can see this full list of Contacts who received the email as well. | [optional] 
- **bcc** | [**List[EmailAddressName]**](EmailAddressName.md)| (optional) list of email addresses that should receive copies of the email.  They are hidden on the email and anyone gettitng the email would not see the other people getting the email in this list. | [optional] 
- **attachments** | [**List[MailAttachment]**](MailAttachment.md)| (optional) File attachments to include in the email.  The file contents must be base64 encoded! | [optional] 
+ **subject** | **string**| The subject or title of the email | 
+ **body** | **string**| The main email contents. | 
+ **from** | [**EmailAddressName**](EmailAddressName.md)|  | 
+ **to** | [**ARRAY[EmailAddressName]**](EmailAddressName.md)| A list of destionation email addresses to send this to | 
+ **replyto** | [**ARRAY[EmailAddressName]**](EmailAddressName.md)| (optional) A list of email addresses that specify where replies to the email should be sent instead of the _from_ address. | [optional] 
+ **cc** | [**ARRAY[EmailAddressName]**](EmailAddressName.md)| (optional) A list of email addresses to carbon copy this message to.  They are listed on the email and anyone getting the email can see this full list of Contacts who received the email as well. | [optional] 
+ **bcc** | [**ARRAY[EmailAddressName]**](EmailAddressName.md)| (optional) list of email addresses that should receive copies of the email.  They are hidden on the email and anyone gettitng the email would not see the other people getting the email in this list. | [optional] 
+ **attachments** | [**ARRAY[MailAttachment]**](MailAttachment.md)| (optional) File attachments to include in the email.  The file contents must be base64 encoded! | [optional] 
  **id** | **int**| (optional)  ID of the Mail order within our system to use as the Mail Account. | [optional] 
 
 ### Return type
@@ -97,79 +78,49 @@ Name | Type | Description  | Notes
  - **Content-Type**: application/x-www-form-urlencoded, application/json
  - **Accept**: application/json
 
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | search results matching criteria |  -  |
-**400** | The specified resource was not found |  -  |
-**401** | Unauthorized |  -  |
-**404** | The specified resource was not found |  -  |
-
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **send_mail**
-> GenericResponse send_mail(to, var_from, subject, body)
+> GenericResponse send_mail(to => $to, from => $from, subject => $subject, body => $body)
 
 Sends an Email
 
 Sends an email through one of your mail orders.  *Note*: If you want to send to multiple recipients or use file attachments use the advsend (Advanced Send) call instead. 
 
 ### Example
+```perl
+use Data::Dumper;
+use OpenAPIClient::SendingApi;
+my $api_instance = OpenAPIClient::SendingApi->new(
 
-* Api Key Authentication (apiKeyAuth):
-```python
-import time
-import os
-import openapi_client
-from openapi_client.models.generic_response import GenericResponse
-from openapi_client.rest import ApiException
-from pprint import pprint
+    # Configure API key authorization: apiKeyAuth
+    api_key => {'X-API-KEY' => 'YOUR_API_KEY'},
+    # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+    #api_key_prefix => {'X-API-KEY' => 'Bearer'},
+);
 
-# Defining the host is optional and defaults to https://api.mailbaby.net
-# See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
-    host = "https://api.mailbaby.net"
-)
+my $to = "to_example"; # string | The Contact whom is the primary recipient of this email.
+my $from = "from_example"; # string | The contact whom is the this email is from.
+my $subject = "subject_example"; # string | The subject or title of the email
+my $body = "body_example"; # string | The main email contents.
 
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure API key authorization: apiKeyAuth
-configuration.api_key['apiKeyAuth'] = os.environ["API_KEY"]
-
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['apiKeyAuth'] = 'Bearer'
-
-# Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = openapi_client.SendingApi(api_client)
-    to = 'to_example' # str | The Contact whom is the primary recipient of this email.
-    var_from = 'var_from_example' # str | The contact whom is the this email is from.
-    subject = 'subject_example' # str | The subject or title of the email
-    body = 'body_example' # str | The main email contents.
-
-    try:
-        # Sends an Email
-        api_response = api_instance.send_mail(to, var_from, subject, body)
-        print("The response of SendingApi->send_mail:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling SendingApi->send_mail: %s\n" % e)
+eval {
+    my $result = $api_instance->send_mail(to => $to, from => $from, subject => $subject, body => $body);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling SendingApi->send_mail: $@\n";
+}
 ```
-
-
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **to** | **str**| The Contact whom is the primary recipient of this email. | 
- **var_from** | **str**| The contact whom is the this email is from. | 
- **subject** | **str**| The subject or title of the email | 
- **body** | **str**| The main email contents. | 
+ **to** | **string**| The Contact whom is the primary recipient of this email. | 
+ **from** | **string**| The contact whom is the this email is from. | 
+ **subject** | **string**| The subject or title of the email | 
+ **body** | **string**| The main email contents. | 
 
 ### Return type
 
@@ -183,14 +134,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: application/x-www-form-urlencoded, application/json
  - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | search results matching criteria |  -  |
-**400** | The specified resource was not found |  -  |
-**401** | Unauthorized |  -  |
-**404** | The specified resource was not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
