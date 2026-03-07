@@ -9,14 +9,16 @@ All URIs are relative to *https://api.mailbaby.net*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_stats**](HistoryApi.md#get_stats) | **GET** /mail/stats | displays a list of blocked email addresses
+[**get_stats**](HistoryApi.md#get_stats) | **GET** /mail/stats | Account usage statistics.
 [**view_mail_log**](HistoryApi.md#view_mail_log) | **GET** /mail/log | displays the mail log
 
 
 # **get_stats**
-> ARRAY[GetStats200ResponseInner] get_stats()
+> MailStatsType get_stats(time => $time)
 
-displays a list of blocked email addresses
+Account usage statistics.
+
+Returns information about the usage on your mail accounts.
 
 ### Example
 ```perl
@@ -30,9 +32,10 @@ my $api_instance = OpenAPIClient::HistoryApi->new(
     #api_key_prefix => {'X-API-KEY' => 'Bearer'},
 );
 
+my $time = "time_example"; # string | The timeframe for the statistics.
 
 eval {
-    my $result = $api_instance->get_stats();
+    my $result = $api_instance->get_stats(time => $time);
     print Dumper($result);
 };
 if ($@) {
@@ -41,11 +44,14 @@ if ($@) {
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **time** | **string**| The timeframe for the statistics. | [optional] 
 
 ### Return type
 
-[**ARRAY[GetStats200ResponseInner]**](GetStats200ResponseInner.md)
+[**MailStatsType**](MailStatsType.md)
 
 ### Authorization
 
@@ -59,7 +65,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **view_mail_log**
-> MailLog view_mail_log(id => $id, origin => $origin, mx => $mx, from => $from, to => $to, subject => $subject, mailid => $mailid, skip => $skip, limit => $limit, start_date => $start_date, end_date => $end_date)
+> MailLog view_mail_log(id => $id, origin => $origin, mx => $mx, from => $from, to => $to, subject => $subject, mailid => $mailid, skip => $skip, limit => $limit, start_date => $start_date, end_date => $end_date, replyto => $replyto, headerfrom => $headerfrom, delivered => $delivered)
 
 displays the mail log
 
@@ -88,9 +94,12 @@ my $skip = 1000; # int | number of records to skip for pagination
 my $limit = 1000; # int | maximum number of records to return
 my $start_date = 1641781008; # int | earliest date to get emails in unix timestamp format
 my $end_date = 1673317008; # int | earliest date to get emails in unix timestamp format
+my $replyto = "replyto_example"; # string | Reply-To Email Address
+my $headerfrom = "headerfrom_example"; # string | Header From Email Address
+my $delivered = "delivered_example"; # string | Limiting the emails to wether or not they were delivered.
 
 eval {
-    my $result = $api_instance->view_mail_log(id => $id, origin => $origin, mx => $mx, from => $from, to => $to, subject => $subject, mailid => $mailid, skip => $skip, limit => $limit, start_date => $start_date, end_date => $end_date);
+    my $result = $api_instance->view_mail_log(id => $id, origin => $origin, mx => $mx, from => $from, to => $to, subject => $subject, mailid => $mailid, skip => $skip, limit => $limit, start_date => $start_date, end_date => $end_date, replyto => $replyto, headerfrom => $headerfrom, delivered => $delivered);
     print Dumper($result);
 };
 if ($@) {
@@ -113,6 +122,9 @@ Name | Type | Description  | Notes
  **limit** | **int**| maximum number of records to return | [optional] [default to 100]
  **start_date** | **int**| earliest date to get emails in unix timestamp format | [optional] 
  **end_date** | **int**| earliest date to get emails in unix timestamp format | [optional] 
+ **replyto** | **string**| Reply-To Email Address | [optional] 
+ **headerfrom** | **string**| Header From Email Address | [optional] 
+ **delivered** | **string**| Limiting the emails to wether or not they were delivered. | [optional] 
 
 ### Return type
 
